@@ -17,8 +17,8 @@
   <script>
     function guardarTexto() {
       const valor = document.getElementById('textoInput').value;
-      // Enviar al backend (ejemplo local)
-      fetch('https://tu-backend.com/guardar-texto', {
+      // ✅ URL real del backend en Netlify
+      fetch('https://asd22.netlify.app/.netlify/functions/guardar-texto', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ texto: valor })
@@ -26,8 +26,13 @@
       .then(res => res.json())
       .then(data => {
         alert('Texto guardado: ' + data.texto);
+      })
+      .catch(error => {
+        alert('Error al guardar el texto');
+        console.error(error);
       });
     }
   </script>
 </body>
 </html>
+
