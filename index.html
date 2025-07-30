@@ -14,25 +14,32 @@
   <input type="text" id="textoInput" placeholder="Escribí tu texto">
   <button onclick="guardarTexto()">Guardar</button>
 
-  <script>
-    function guardarTexto() {
-      const valor = document.getElementById('textoInput').value;
-      // ✅ URL real del backend en Netlify
-      fetch('https://asd22.netlify.app/.netlify/functions/guardar-texto', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ texto: valor })
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert('Texto guardado: ' + data.texto);
-      })
-      .catch(error => {
-        alert('Error al guardar el texto');
-        console.error(error);
-      });
-    }
-  </script>
+<script>
+  function guardarTexto() {
+    const valor = document.getElementById('textoInput').value;
+
+    fetch('https://asd22.netlify.app/.netlify/functions/guardar-texto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: valor })
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`Error HTTP: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      alert('✅ Texto guardado: ' + data.texto);
+    })
+    .catch(err => {
+      alert('❌ Error al guardar el texto');
+      console.error('💥 Error en el fetch:', err);
+    });
+  }
+</script>
+
+
 </body>
 </html>
 
