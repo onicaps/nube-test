@@ -1,24 +1,14 @@
-let textoGuardado = ''; // Esto es temporal, solo para test
+const fetch = require('node-fetch');
 
-exports.handler = async (event) => {
-  if (event.httpMethod === 'POST') {
-    const { texto } = JSON.parse(event.body);
-    textoGuardado = texto;
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true, texto })
-    };
-  }
-
-  if (event.httpMethod === 'GET') {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ texto: textoGuardado })
-    };
-  }
+exports.handler = async () => {
+  const response = await fetch('https://asd22.netlify.app/.netlify/functions/guardar-texto');
+  const data = await response.json();
 
   return {
-    statusCode: 405,
-    body: 'Method Not Allowed'
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    body: JSON.stringify(data),
   };
 };
