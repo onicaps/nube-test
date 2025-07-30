@@ -2,20 +2,19 @@ const fs = require('fs');
 const path = require('path');
 
 exports.handler = async () => {
-  const filePath = path.resolve(__dirname, 'texto.json');
+  const ruta = path.resolve(__dirname, 'texto.json');
 
-  let texto = '';
-  if (fs.existsSync(filePath)) {
-    const data = fs.readFileSync(filePath);
-    texto = JSON.parse(data).texto || '';
+  if (fs.existsSync(ruta)) {
+    const data = fs.readFileSync(ruta);
+    const { texto } = JSON.parse(data);
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ texto }),
+    };
+  } else {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ texto: '' }),
+    };
   }
-
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ texto })
-  };
 };
